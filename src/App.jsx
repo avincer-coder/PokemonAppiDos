@@ -10,6 +10,10 @@ function App() {
       <p>
         POKEMON
       </p>
+
+      <p>
+        Holaaaaaa
+      </p>
     </>
   )
 //   const [pokemon,setPokemon] = useState();
