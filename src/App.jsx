@@ -10,7 +10,7 @@ import axios from 'axios';
 
 function App() {
   const [listaPokemon, setlistaPokemon] = useState([]);
-  const [text, setText] = useState("Hola, mundo!");
+  const [text, setText] = useState("");
 
   useEffect(() => {
    const fetchdata = async () =>{
@@ -31,8 +31,26 @@ function App() {
 
       })
       //El resultado de imagen pokemon (array de pokemones con url) ahora esta en lista pokemon
-      setlistaPokemon(await Promise.all(imagenPokemon))
 
+       
+      let ListaPrincipal = await Promise.all(imagenPokemon)
+      console.log(text)
+      setlistaPokemon(ListaPrincipal)
+
+      // const listaFiltrada = ListaPrincipal.filter(pokemon => pokemon.nombre.includes(text));
+      // console.log(listaFiltrada)
+      
+
+
+      // setlistaPokemon(listaFiltrada)
+      // console.log(listaFiltrada)
+//Filtro con valor de input a ListaPokemon
+  //  ----------- B 
+
+  // const ListaPokemonFiltrada = listaPokemon.filter(
+  //   (Pokemon) => Pokemon.nombre = text
+  // );
+    // setlistaPokemon(ListaPokemonFiltrada)
       
     }
     
@@ -43,18 +61,15 @@ function App() {
       // });
   }, []); 
 
-  //Filtro con valor de input a ListaPokemon
-  //  ----------- B 
+ 
 
-    const ListaPokemonFiltrada = listaPokemon.filter(
-    (Pokemon) => Pokemon.nombre = text
-  );
-
-      console.log(ListaPokemonFiltrada)
+      // console.log(ListaPokemonFiltrada)
       
-  function ProcesoFiltro(e){
-    console.log(e)
+  function ProcesoFiltro(e){ 
     setText(e.target.value);
+    let Filtro = listaPokemon.filter(pokemon => pokemon.nombre.includes(e.target.value));
+    setlistaPokemon(Filtro)
+    console.log(Filtro)
   };
 
   return( 
