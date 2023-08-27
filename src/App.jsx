@@ -30,21 +30,23 @@ function App() {
           nombre: responseV2.data.name
         }
       })
+      // Creamos dos listas la primera filtra y la segunda deja la lista intacta
       setnuevaLista( await Promise.all(imagenPokemon))
+      setlistaPokemon(await Promise.all(imagenPokemon))
     }
-    
+    // Llama a la fucnion fetchdata sino no sirve esta definida arriba
   fetchdata()
+  // Los corchetes de array definen que use effect solo va a ejecutarse en el renderisado inicial
   }, []); 
 
- 
-
-      // console.log(ListaPokemonFiltrada)
-
-  function ProcesoFiltro(e){ 
+  //Esta funcion se ejecuta cada que escucha un cambio el input text
+  function ProcesoFiltro(e){
+    //Adentro guardamos una variable para el value 
     setText(e.target.value);
-    let Filtro = nuevaLista.filter(pokemon => pokemon.nombre.includes(e.target.value));
+    //Uno de los dos arrays que creamos lo vamos a filtrar 
+    let Filtro = listaPokemon.filter(pokemon => pokemon.nombre.includes(e.target.value));
+    // El segundo array lo cambiamos por resultado del filtro
     setnuevaLista(Filtro)
-    console.log(Filtro)
   };
 
   return( 
