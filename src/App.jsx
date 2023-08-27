@@ -11,13 +11,14 @@ import axios from 'axios';
 function App() {
   const [listaPokemon, setlistaPokemon] = useState([]);
   const [text, setText] = useState("");
+  const [nuevaLista, setnuevaLista] = useState([]); 
 
   useEffect(() => {
    const fetchdata = async () =>{
     const response = await axios.get('https://pokeapi.co/api/v2/pokemon/') // PRIMERA APPI
-  
-    setlistaPokemon(response.data.results) // ListaPokemon = primera data
 
+    setlistaPokemon(response.data.results) // ListaPokemon = primera data
+        
     //Multiples llamadas para obtener URLS
     //El resultado maps lo guarde en imagen Pokemon(varios objetos)
       const imagenPokemon = response.data.results.map( async (PokemonID) => {
@@ -28,47 +29,21 @@ function App() {
           url:responseV2.data.sprites.front_default,
           nombre: responseV2.data.name
         }
-
       })
-      //El resultado de imagen pokemon (array de pokemones con url) ahora esta en lista pokemon
-
-       
-      let ListaPrincipal = await Promise.all(imagenPokemon)
-      console.log(text)
-      setlistaPokemon(ListaPrincipal)
-
-      // const listaFiltrada = ListaPrincipal.filter(pokemon => pokemon.nombre.includes(text));
-      // console.log(listaFiltrada)
-      
-
-
-      // setlistaPokemon(listaFiltrada)
-      // console.log(listaFiltrada)
-//Filtro con valor de input a ListaPokemon
-  //  ----------- B 
-
-  // const ListaPokemonFiltrada = listaPokemon.filter(
-  //   (Pokemon) => Pokemon.nombre = text
-  // );
-    // setlistaPokemon(ListaPokemonFiltrada)
-      
+      setnuevaLista( await Promise.all(imagenPokemon))
     }
     
   fetchdata()
-
-      // .catch(error => {
-      //   console.error('Error:', error);
-      // });
   }, []); 
 
  
 
       // console.log(ListaPokemonFiltrada)
-      
+
   function ProcesoFiltro(e){ 
     setText(e.target.value);
-    let Filtro = listaPokemon.filter(pokemon => pokemon.nombre.includes(e.target.value));
-    setlistaPokemon(Filtro)
+    let Filtro = nuevaLista.filter(pokemon => pokemon.nombre.includes(e.target.value));
+    setnuevaLista(Filtro)
     console.log(Filtro)
   };
 
@@ -86,10 +61,11 @@ function App() {
         <p>El valor del input es: {text}</p>
         <main className="contenedor_main">
           <ul className="contenedor_cards">
-            {listaPokemon.map(Pokemon => (
+            {nuevaLista.map(Pokemon => (
             <li className="contenedor_card" key={Pokemon.nombre}>
-              <img src={Pokemon.url} alt="" />
               <p>{Pokemon.nombre}</p>
+              <img src={Pokemon.url} alt="" />
+              
             </li>
             ))}
           </ul>
